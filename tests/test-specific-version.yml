@@ -1,0 +1,29 @@
+name: Test specific butler version
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          butler-version: "15.21.0"
+      - name: Assert butler is installed
+        run: |
+          echo "Checking butler binary..."
+          if ! command -v butler &>/dev/null; then
+            echo "FAIL: butler not found in PATH"
+            exit 1
+          fi
+          echo "PASS: butler found at $(command -v butler)"
+      - name: Assert butler version matches expected
+        run: |
+          VERSION_OUTPUT=$(butler --version 2>&1)
+          echo "butler version output: $VERSION_OUTPUT"
+          if ! echo "$VERSION_OUTPUT" | grep -q "15.21.0"; then
+            echo "FAIL: expected version 15.21.0 in output"
+            exit 1
+          fi
+          echo "PASS"

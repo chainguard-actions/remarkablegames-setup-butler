@@ -1,0 +1,27 @@
+name: Test basic usage (default butler)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+      - name: Assert butler is installed and in PATH
+        run: |
+          echo "Checking butler binary..."
+          if ! command -v butler &>/dev/null; then
+            echo "FAIL: butler not found in PATH"
+            exit 1
+          fi
+          echo "PASS: butler found at $(command -v butler)"
+      - name: Assert butler version output
+        run: |
+          echo "Running butler --version..."
+          butler --version
+          if [ $? -ne 0 ]; then
+            echo "FAIL: butler --version exited with non-zero status"
+            exit 1
+          fi
+          echo "PASS"
