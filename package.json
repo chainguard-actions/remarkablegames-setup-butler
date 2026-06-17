@@ -1,0 +1,49 @@
+{
+  "name": "setup-butler",
+  "version": "2.0.5",
+  "description": "Set up GitHub Actions workflow with itch.io butler",
+  "author": "Mark <mark@remarkablemark.org>",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "ncc build --minify",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf coverage dist",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:tsc": "tsc --noEmit",
+    "prepare": "husky",
+    "test": "node --experimental-vm-modules $(npx which jest)",
+    "test:ci": "CI=true npm test -- --ci --colors --coverage",
+    "test:watch": "npm test -- --watch"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.0",
+    "@actions/exec": "3.0.0",
+    "@actions/tool-cache": "4.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "20.4.1",
+    "@commitlint/config-conventional": "20.4.1",
+    "@eslint/compat": "2.0.2",
+    "@eslint/eslintrc": "3.3.3",
+    "@eslint/js": "9.39.2",
+    "@types/jest": "30.0.0",
+    "@types/node": "25.2.0",
+    "@vercel/ncc": "^0.38.4",
+    "eslint": "9.39.2",
+    "eslint-plugin-prettier": "5.5.5",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-tsdoc": "0.5.0",
+    "globals": "17.3.0",
+    "husky": "9.1.7",
+    "jest": "30.2.0",
+    "lint-staged": "16.2.7",
+    "prettier": "3.8.1",
+    "ts-jest": "29.4.6",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.54.0"
+  },
+  "private": true,
+  "license": "MIT"
+}
