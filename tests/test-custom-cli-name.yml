@@ -1,0 +1,19 @@
+name: Test custom CLI name
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          cli-name: mybutler
+      - name: Assert custom CLI name is on PATH
+        run: |
+          echo "Checking mybutler is on PATH..."
+          which mybutler || { echo "FAIL: mybutler not found on PATH"; exit 1; }
+          echo "Checking mybutler version output..."
+          mybutler --version || { echo "FAIL: mybutler --version failed"; exit 1; }
+          echo "PASS"
