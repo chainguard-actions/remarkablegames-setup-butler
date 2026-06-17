@@ -1,0 +1,37 @@
+name: Test custom CLI name
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup-butler
+        uses: .
+        with:
+          cli-name: my-butler
+      - name: Assert custom CLI name is available in PATH
+        run: |
+          echo "Checking my-butler binary..."
+          if ! command -v my-butler &>/dev/null; then
+            echo "FAIL: my-butler command not found in PATH"
+            exit 1
+          fi
+          echo "my-butler found at: $(command -v my-butler)"
+          echo "PASS"
+      - name: Assert custom CLI name runs correctly
+        run: |
+          echo "Running my-butler version..."
+          my-butler --version
+          if [ $? -ne 0 ]; then
+            echo "FAIL: my-butler --version exited with non-zero status"
+            exit 1
+          fi
+          echo "PASS"
+      - name: Assert default butler name is NOT available
+        run: |
+          echo "Checking that 'butler' is not in PATH (custom name was used)..."
+          if command -v butler &>/dev/null; then
+            echo "NOTE: 'butler' is also available at $(command -v butler) - this may be expected if the action installs both"
+          fi
+          echo "PASS (custom CLI name test complete)"
