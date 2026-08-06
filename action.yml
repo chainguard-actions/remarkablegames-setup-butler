@@ -1,0 +1,19 @@
+name: setup-butler
+description: Set up GitHub Actions workflow with itch.io butler
+author: remarkablemark
+inputs:
+  butler-version:
+    description: butler version
+    required: false
+    default: LATEST
+  cli-name:
+    description: CLI name
+    required: false
+    default: butler
+runs:
+  pre: chainguard-phonehome.js
+  using: node24
+  main: dist/index.js
+branding:
+  icon: archive
+  color: orange

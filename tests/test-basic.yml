@@ -1,0 +1,27 @@
+name: Test basic usage (default butler)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+      - name: Assert butler is on PATH
+        run: |
+          echo "Checking butler is available..."
+          which butler
+          if [ $? -ne 0 ]; then
+            echo "FAIL: butler not found on PATH"
+            exit 1
+          fi
+          echo "PASS: butler found at $(which butler)"
+      - name: Assert butler runs
+        run: |
+          butler --version
+          if [ $? -ne 0 ]; then
+            echo "FAIL: butler --version failed"
+            exit 1
+          fi
+          echo "PASS: butler --version succeeded"
