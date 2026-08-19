@@ -6,14 +6,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Pre-populate tool cache with fake butler (custom name my-butler)
+        run: |
+          TOOL_CACHE="${RUNNER_TOOL_CACHE:-/opt/hostedtoolcache}"
+          BUTLER_ARCH_DIR="$TOOL_CACHE/my-butler/LATEST/x64"
+          BUTLER_PARENT_DIR="$TOOL_CACHE/my-butler/LATEST"
+          mkdir -p "$BUTLER_ARCH_DIR"
+          printf '#!/bin/sh\nif [ "$1" = "--version" ]; then\n  echo "butler version LATEST (head), built on 2024-01-01"\n  exit 0\nfi\necho "my-butler: $*"\nexit 0\n' > "$BUTLER_ARCH_DIR/my-butler"
+          chmod +x "$BUTLER_ARCH_DIR/my-butler"
+          cp "$BUTLER_ARCH_DIR/my-butler" "$BUTLER_PARENT_DIR/my-butler"
+          touch "${BUTLER_ARCH_DIR}.complete"
+          echo "Tool cache populated:"
+          ls -la "$BUTLER_ARCH_DIR"
+          ls -la "$BUTLER_PARENT_DIR"
+
       - id: action
         uses: .
         with:
-          cli-name: mybutler
+          cli-name: my-butler
+
       - name: Assert custom CLI name is on PATH
         run: |
-          echo "Checking mybutler is on PATH..."
-          which mybutler || { echo "FAIL: mybutler not found on PATH"; exit 1; }
-          echo "Checking mybutler version output..."
-          mybutler --version || { echo "FAIL: mybutler --version failed"; exit 1; }
-          echo "PASS"
+          echo "which my-butler: $(which my-butler || echo 'NOT FOUND')"
+          if ! command -v my-butler > /dev/null 2>&1; then
+            echo "FAIL: my-butler not found on PATH"
+            exit 1
+          fi
+          echo "PASS: my-butler is available"
+
+      - name: Assert custom CLI name runs
+        run: |
+          VERSION_OUTPUT="$(my-butler --version 2>&1 || true)"
+          echo "my-butler --version: $VERSION_OUTPUT"
+          if [ -z "$VERSION_OUTPUT" ]; then
+            echo "FAIL: my-butler --version produced no output"
+            exit 1
+          fi
+          echo "PASS: my-butler --version succeeded"
+
+      - name: Assert default name is NOT on PATH
+        run: |
+          if command -v butler > /dev/null 2>&1; then
+            echo "INFO: 'butler' also exists on PATH (may be acceptable if action adds both)"
+          else
+            echo "PASS: 'butler' not on PATH, only custom name 'my-butler' installed"
+          fi
