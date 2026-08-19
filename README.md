@@ -13,6 +13,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v2.0.6 | [`v2.0.6`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v2.0.6) | [`89884d4`](https://github.com/remarkablegames/setup-butler/commit/89884d4f9ce95107d55b61253646cc70553e4103) |
 | v2.0.7 | [`v2.0.7`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v2.0.7) | [`0ae0d25`](https://github.com/remarkablegames/setup-butler/commit/0ae0d25d726294e9130e5f2bc979fdb0fc5f506c) |
 | v3.0.0 | [`v3.0.0`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v3.0.0) | [`86d7a82`](https://github.com/remarkablegames/setup-butler/commit/86d7a82798bd37fc2bae2db5721995ed06eaa9f8) |
+| v3.0.1 | [`v3.0.1`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v3.0.1) | [`0cd7c23`](https://github.com/remarkablegames/setup-butler/commit/0cd7c23a08590447459b75779fc27d8a0197ed1b) |
 | v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v3.0.2) | [`f9feeb5`](https://github.com/remarkablegames/setup-butler/commit/f9feeb5d4334294e96686b81150fca5ebbff8255) |
 
 ## Privacy
