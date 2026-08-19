@@ -1,19 +1,76 @@
-# remarkablegames/setup-butler
+<p align="center">
+  <img alt="itch.io" height="150" src="itchio-logo.svg">
+</p>
 
-Set up GitHub Actions workflow with itch.io butler
+# setup-butler
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/remarkablegames/setup-butler](https://github.com/remarkablegames/setup-butler).
+[![version](https://img.shields.io/github/release/remarkablegames/setup-butler)](https://github.com/remarkablegames/setup-butler/releases)
+[![build](https://github.com/remarkablegames/setup-butler/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/setup-butler/actions/workflows/build.yml)
+[![codecov](https://codecov.io/gh/remarkablegames/setup-butler/graph/badge.svg?token=AAbBz3SIPn)](https://codecov.io/gh/remarkablegames/setup-butler)
 
-## Versions
+🎩 Set up your GitHub Actions workflow with [itch.io](https://itch.io/) [butler](https://itch.io/docs/butler/).
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v2.0.4 | [`v2.0.4`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v2.0.4) | [`6387874`](https://github.com/remarkablegames/setup-butler/commit/638787455f64a718b58913f15e1f6dccf830217d) |
-| v2.0.5 | [`v2.0.5`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v2.0.5) | [`b31d4e1`](https://github.com/remarkablegames/setup-butler/commit/b31d4e171b18442414328e4facbca76280041dba) |
-| v2.0.6 | [`v2.0.6`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v2.0.6) | [`89884d4`](https://github.com/remarkablegames/setup-butler/commit/89884d4f9ce95107d55b61253646cc70553e4103) |
-| v2.0.7 | [`v2.0.7`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v2.0.7) | [`0ae0d25`](https://github.com/remarkablegames/setup-butler/commit/0ae0d25d726294e9130e5f2bc979fdb0fc5f506c) |
-| v3.0.0 | [`v3.0.0`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v3.0.0) | [`86d7a82`](https://github.com/remarkablegames/setup-butler/commit/86d7a82798bd37fc2bae2db5721995ed06eaa9f8) |
-| v3.0.2 | [`v3.0.2`](https://github.com/chainguard-actions/remarkablegames-setup-butler/tree/v3.0.2) | [`f9feeb5`](https://github.com/remarkablegames/setup-butler/commit/f9feeb5d4334294e96686b81150fca5ebbff8255) |
+## Quick Start
+
+```yaml
+name: Upload to itch.io
+on: push
+jobs:
+  itchio-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup butler
+        uses: remarkablegames/setup-butler@v3
+
+      # https://itch.io/docs/butler/pushing.html
+      - name: Upload to itch.io
+        run: butler push directory user/game:channel
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+```
+
+The `BUTLER_API_KEY` is your [itch.io API key](https://itch.io/user/settings/api-keys).
+
+## Usage
+
+Set up butler CLI:
+
+```yaml
+- uses: remarkablegames/setup-butler@v3
+```
+
+See [action.yml](action.yml)
+
+## Inputs
+
+### `butler-version`
+
+**Optional**: The CLI [version](https://broth.itch.zone/butler). Defaults to `LATEST`:
+
+```yaml
+- uses: remarkablegames/setup-butler@v3
+  with:
+    butler-version: LATEST
+```
+
+### `cli-name`
+
+**Optional**: The CLI name. Defaults to `butler`:
+
+```yaml
+- uses: remarkablegames/setup-butler@v3
+  with:
+    cli-name: butler
+```
+
+## Examples
+
+- [phaser-template](https://github.com/remarkablegames/phaser-template/blob/master/.github/workflows/release-please.yml)
+- [renpy-template](https://github.com/remarkablegames/renpy-template/blob/master/.github/workflows/release-please.yml)
+
+## License
+
+[MIT](LICENSE)
 
 ## Privacy
 
