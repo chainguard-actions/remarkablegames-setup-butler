@@ -1,0 +1,45 @@
+{
+  "name": "setup-butler",
+  "version": "3.0.4",
+  "description": "Set up GitHub Actions workflow with itch.io butler",
+  "author": "Mark <mark@remarkablemark.org>",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "ncc build --minify",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf coverage dist",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:tsc": "tsc --project tsconfig.test.json",
+    "prepare": "husky",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.1",
+    "@actions/exec": "3.0.0",
+    "@actions/tool-cache": "4.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.6.5",
+    "@vercel/ncc": "^0.45.0",
+    "@vitest/coverage-v8": "5.0.5",
+    "eslint": "10.13.0",
+    "eslint-plugin-prettier": "5.5.7",
+    "eslint-plugin-simple-import-sort": "14.0.0",
+    "eslint-plugin-tsdoc": "0.5.4",
+    "globals": "17.13.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.6.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "vitest": "5.0.5"
+  },
+  "private": true,
+  "license": "MIT"
+}

@@ -1,0 +1,35 @@
+name: Test custom cli-name
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          cli-name: mybutler
+      - name: Assert renamed binary is on PATH
+        run: |
+          if ! command -v mybutler >/dev/null 2>&1; then
+            echo "FAIL: mybutler not found on PATH"
+            exit 1
+          fi
+          BIN="$(command -v mybutler)"
+          echo "mybutler path: $BIN"
+          if [ "$(basename "$BIN")" != "mybutler" ]; then
+            echo "FAIL: unexpected binary name"
+            exit 1
+          fi
+          OUT="$(mybutler --version 2>&1 || true)"
+          echo "version output: $OUT"
+          if [ -z "$OUT" ]; then
+            echo "FAIL: mybutler --version produced no output"
+            exit 1
+          fi
+          if [ -e "$(dirname "$BIN")/butler" ]; then
+            echo "FAIL: original 'butler' binary should have been renamed"
+            exit 1
+          fi
+          echo "PASS"
